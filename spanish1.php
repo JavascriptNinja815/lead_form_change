@@ -233,9 +233,7 @@
    );
    
    try{
-       // $geoplugin = unserialize( file_get_contents('http://www.geoplugin.net/php.gp?ip=' . $_SERVER['REMOTE_ADDR']) );
-       // $geoplugin = unserialize( file_get_contents('http://www.geoplugin.net/php.gp?ip=104.247.132.212') );
-       $geoplugin = unserialize( file_get_contents('http://www.geoplugin.net/php.gp?ip=113.234.215.140') );
+       $geoplugin = unserialize( file_get_contents('http://www.geoplugin.net/php.gp?ip=' . $_SERVER['REMOTE_ADDR']) );
        $country_code = $geoplugin['geoplugin_countryCode'];
    } catch (exception $e) {
        
@@ -389,8 +387,8 @@
                            </div>
                            <?php
                               # Calling function to populate the variable, then creating a hidden input and populating it
-                              // $ip = getIP();
-                              // echo '<input name="ip" type="hidden" value="' . $ip . '" />';
+                              $ip = getIP();
+                              echo '<input name="ip" type="hidden" value="' . $ip . '" />';
                               ?>
                         </div>
                         <!-- end of user inputs -->
