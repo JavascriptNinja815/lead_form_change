@@ -303,7 +303,7 @@
                </div>
                <!-- form -->
                <div class="col-12 col-lg-4 col-xl-4 offset-xl-1 pr-0 pl-0">
-                  <form action="signup.php" id="mainForm" method="post" class="main-form">
+                  <form action="signup.php" id="mainForm" method="post" class="main-form" onsubmit="return validation(event);">
                      <!-- hidden inputs -->
                      <!--
                         <input type="hidden" name="formId" id="formId" value="2066" />
@@ -405,7 +405,7 @@
                            </div>
                         </div>
                         <div class="col-12 col-sm-12 form-group">
-                           <button type="submit" id="submitButton" class="register-btn ">Solicite más información</button>
+                           <button type="submit" id="submitButton" class="register-btn">Solicite más información</button>
                         </div>
                         <div class="col-12 col-sm-12 form-group">
                            <p class="cfd">
@@ -659,15 +659,15 @@
          
          ?>
       <script type="text/javascript">
-        document.getElementById('submitButton').addEventListener('click', function(e) {
+         function validation(e) {
             if (document.getElementById('terms').checked == true) {
-                fbq('track', 'CompleteRegistration');
+               fbq('track', 'CompleteRegistration');
             } else {
-                e.preventDefault();
-                e.stopPropagation();
-                return false;
+               e.preventDefault();
+               e.stopPropagation();
+               return false;
             }
-        }, false);
+         }
       </script>
    </body>
 </html>
