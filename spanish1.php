@@ -232,9 +232,9 @@
    	'ZW'=>array('name'=>'ZIMBABWE','code'=>'263')
    );
    
-   try{
-       $geoplugin = unserialize( file_get_contents('http://www.geoplugin.net/php.gp?ip=' . $_SERVER['REMOTE_ADDR']) );
-       $country_code = $geoplugin['geoplugin_countryCode'];
+   try {
+      $geoplugin = unserialize( file_get_contents('http://www.geoplugin.net/php.gp?ip=' . $_SERVER['REMOTE_ADDR']) );
+      $country_code = $geoplugin['geoplugin_countryCode'];
    } catch (exception $e) {
        
    }
@@ -346,7 +346,7 @@
                            <div class="valid-err">
                               <div class="field-group">
                                  <input type="email" id="email" class="form-control" name="email"
-                                    placeholder="Email" />
+                                    placeholder="Email" required/>
                               </div>
                            </div>
                         </div>
@@ -374,12 +374,12 @@
                         </div>
                         <div class="col-12 col-sm-12 form-group">
                            <div class="valid-err">
-                              <select id="country" name="country" class="form-control" tabindex="-1" data-lgl="countrylist">
+                              <select id="country" name="country" class="form-control" tabindex="-1" data-lgl="countrylist" onchange="changeCountry()">
                                  <option value="" class="">Select</option>
                                  <?php 
                                     foreach($countryArray as $code => $country){
-                                        $countryName = ucwords(strtolower($country["name"])); 
-                                        $options .= "<option value='".$code."' ".(($code==strtoupper($country_code))?"selected":"").">".$countryName."</option>";
+                                       $countryName = ucwords(strtolower($country["name"]));
+                                       $options .= "<option value='".$code."' ".(($code==strtoupper($country_code))?"selected":"").">".$countryName."</option>";
                                     }
                                     echo $options;
                                     ?>
@@ -395,7 +395,7 @@
                         <!-- terms and conditions -->
                         <div class="col-12 col-sm-12 form-group">
                            <div class="valid-err check-box">
-                              <input type="checkbox" id="terms" name="RegistrationModel.TermsAndConditions"/>
+                              <input type="checkbox" id="terms" name="RegistrationModel.TermsAndConditions" checked/>
                               <label class="switch" for="terms">
                               <span class="slider round"></span>
                               </label>
@@ -574,7 +574,7 @@
                   <!-- terms and conditions -->
                   <div class="col-12 col-sm-12 form-group">
                      <div class="valid-err check-box">
-                        <input type="checkbox" id="terms_1" name="RegistrationModel.TermsAndConditions"/>
+                        <input type="checkbox" id="terms_1" name="RegistrationModel.TermsAndConditions" checked/>
                         <label class="switch" for="terms_1">
                         <span class="slider round"></span>
                         </label>
@@ -659,15 +659,35 @@
          
          ?>
       <script type="text/javascript">
+         var phoneCode = {}
+         <?php
+            foreach ($countryArray as $k => $v) {
+               echo "phoneCode." . $k . " = \"" . $v["code"] . "\"\n";
+            }
+         ?>
+
+         document.getElementById('terms').addEventListener('change', function(){
+            console.log(document.getElementById('terms').checked);
+            if (document.getElementById('terms').checked == true) {
+               document.getElementsByClassName('check-box')[0].style.border = 'none';
+            }
+         })
+         function changeCountry(){
+            var countryCode = document.getElementById('country').value;
+            document.getElementById('phonecode').value = "+" + phoneCode[countryCode];
+         }
+         
          function validation(e) {
             if (document.getElementById('terms').checked == true) {
                fbq('track', 'CompleteRegistration');
             } else {
                e.preventDefault();
                e.stopPropagation();
+               document.getElementsByClassName('check-box')[0].style.border = 'solid 2px red';
                return false;
             }
          }
+
       </script>
    </body>
 </html>
